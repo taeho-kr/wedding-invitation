@@ -1,0 +1,11 @@
+/*
+화이트+골드
+화이트+그린
+네이비+실버
+*/
+
+:root {
+  --mobile-width: 100%;
+  --mobile-min-width: 320px;
+  --mobile-max-width: 480px;
+}
