@@ -2,14 +2,17 @@ import React from "react";
 import styled, { css } from "styled-components";
 import { centerBox, rowBox } from "../../../styles";
 import { IconHeart, IconInstagram, IconMessage } from "../../../assets/icons";
+import { useNavigate } from "react-router-dom";
 
 const Header = ({ isVisible }) => {
+  const navigate = useNavigate();
+
   return (
     <ComponentWrapper>
       <LogoContainer>{IconInstagram}</LogoContainer>
       <ButtonContainer>
         <Icon>{IconHeart}</Icon>
-        <Icon>{IconMessage}</Icon>
+        <Icon onClick={()=>navigate('/message')}>{IconMessage}</Icon>
       </ButtonContainer>
     </ComponentWrapper>
   );
