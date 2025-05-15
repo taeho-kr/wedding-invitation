@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react';
 import Typography from '../ui/typography';
 
 export default function PostItem({ id, author, date, content, description, likes, comments }: Post) {
+	id;
+
 	const [api, setApi] = useState<CarouselApi>();
 	const [current, setCurrent] = useState(0);
 	const [count, setCount] = useState(0);
@@ -89,7 +91,7 @@ export default function PostItem({ id, author, date, content, description, likes
 				setApi={setApi}
 			>
 				<CarouselContent>
-					{content.map((paragraph, index) => {
+					{content.map((_, index) => {
 						const random = Math.floor(Math.random() * 100) + 200;
 						return (
 							<CarouselItem key={index}>
