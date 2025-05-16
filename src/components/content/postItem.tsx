@@ -4,6 +4,7 @@ import { Heart, MessageCircle } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
 import { useEffect, useState } from 'react';
 import Typography from '../ui/typography';
+import { cn } from '@/lib/utils';
 
 export default function PostItem({ id, author, date, content, description, likes, comments }: Post) {
 	id;
@@ -11,14 +12,25 @@ export default function PostItem({ id, author, date, content, description, likes
 	const [api, setApi] = useState<CarouselApi>();
 	const [current, setCurrent] = useState(0);
 	const [count, setCount] = useState(0);
+	const [firstImageLoaded, setFirstImageLoaded] = useState(false);
 
 	const [dayDiff, setDayDiff] = useState({
 		value: 0,
 		unit: 'day',
 	});
 
+	const [contents, setContents] = useState<string[]>([]);
+
 	useEffect(() => {
-		// minute, hour, day, week, month, year
+		const newContents = content.map((_) => {
+			const random = Math.floor(Math.random() * 100) + 200;
+			return `https://picsum.photos/${random}/${random}`;
+		});
+
+		setContents(newContents);
+	}, []);
+
+	useEffect(() => {
 		const date1 = new Date(date);
 		const date2 = new Date();
 		const diff = Math.abs(date2.getTime() - date1.getTime());
@@ -79,56 +91,106 @@ export default function PostItem({ id, author, date, content, description, likes
 
 	return (
 		<div className='flex flex-col items-start'>
-			<div className='flex flex-row gap-2 items-center p-3'>
-				<Avatar>
-					<AvatarImage src='' />
-					<AvatarFallback>AV</AvatarFallback>
-				</Avatar>
-				<span>{author}</span>
-			</div>
-			<Carousel
-				className='w-full relative'
-				setApi={setApi}
-			>
-				<CarouselContent>
-					{content.map((_, index) => {
-						const random = Math.floor(Math.random() * 100) + 200;
-						return (
-							<CarouselItem key={index}>
-								<img
-									src={`https://picsum.photos/${random}/${random}`}
-									className='w-full h-full max-w-full max-h-full'
-								/>
-							</CarouselItem>
-						);
-					})}
-				</CarouselContent>
-				{count > 1 && (
-					<div className='absolute top-4 right-4 border rounded-full text-xs bg-[var(--background-tp)] px-2 py-0.5'>
-						{current}/{count}
+			{!firstImageLoaded && (
+				<img
+					src={contents[0]}
+					onLoad={() => setFirstImageLoaded(true)}
+					className='h-1 w-1'
+				/>
+			)}
+			{!firstImageLoaded ? (
+				<>
+					<div className='flex flex-row gap-2 items-center p-3'>
+						<Avatar>
+							<AvatarImage src='' />
+							<AvatarFallback>
+								<div className='w-full h-full bg-gray-500 animate-pulse' />
+							</AvatarFallback>
+						</Avatar>
+						<div className='w-25 h-4 bg-gray-500 animate-pulse rounded-sm' />
 					</div>
-				)}
-			</Carousel>
-			<div className='flex flex-row gap-4 p-2'>
-				<div className='flex flex-row gap-2'>
-					<Heart />
-					<span>{likes.toLocaleString()}</span>
-				</div>
-				<div className='flex flex-row gap-2'>
-					<MessageCircle />
-					<span>{comments.toLocaleString()}</span>
-				</div>
-			</div>
-			<div className='flex flex-row gap-1 px-2'>
-				<strong>{author}</strong>
-				<span>{description}</span>
-			</div>
-			<Typography
-				variant='caption1'
-				className='ml-2'
-			>
-				{getDateString()}
-			</Typography>
+					<div className='w-[100vw] h-[100vw] max-w-[720px] max-h-[720px] bg-gray-500 animate-pulse' />
+					<div className='ml-3 w-[80%] h-4 bg-gray-500 animate-pulse rounded-sm mt-2' />
+					<div className='ml-3 w-[80%] h-4 bg-gray-500 animate-pulse rounded-sm mt-2' />
+				</>
+			) : (
+				<>
+					<div className={cn('flex flex-row gap-2 items-center p-3', !firstImageLoaded && 'hidden')}>
+						<Avatar>
+							<AvatarImage src='' />
+							<AvatarFallback>AV</AvatarFallback>
+						</Avatar>
+						<span>{author}</span>
+					</div>
+					{contents.length > 1 ? (
+						<Carousel
+							className='relative w-full'
+							setApi={setApi}
+						>
+							<CarouselContent>
+								{contents.map((content, index) => {
+									return (
+										<CarouselItem key={index}>
+											<img
+												src={content}
+												className='w-full h-full max-w-full max-h-full'
+											/>
+										</CarouselItem>
+									);
+								})}
+							</CarouselContent>
+							{count > 1 && (
+								<div className='absolute top-4 right-4 border rounded-full text-xs bg-[var(--background-tp)] px-2 py-0.5'>
+									{current}/{count}
+								</div>
+							)}
+						</Carousel>
+					) : (
+						<img
+							src={contents[0]}
+							className='w-full h-full max-w-full max-h-full'
+						/>
+					)}
+
+					{count > 1 && (
+						<div className='w-full flex flex-row gap-1 items-center justify-center p-3'>
+							{contents.map((_, index) => (
+								<div
+									key={index}
+									className={cn(
+										'bg-muted h-[4px] w-[4px] rounded-full',
+										'transition-all duration-300 ease-in-out',
+										current === index + 1 ? 'bg-[var(--focused)]' : 'bg-muted'
+									)}
+									style={{
+										transform: `scale(${current === index + 1 ? 1.3 : 1})`,
+									}}
+								/>
+							))}
+						</div>
+					)}
+					<div className='flex flex-row gap-4 p-2'>
+						<div className='flex flex-row gap-2'>
+							<Heart />
+							<span>{likes.toLocaleString()}</span>
+						</div>
+						<div className='flex flex-row gap-2'>
+							<MessageCircle />
+							<span>{comments.toLocaleString()}</span>
+						</div>
+					</div>
+					<div className='flex flex-row gap-1 px-2'>
+						<strong>{author}</strong>
+						<span>{description}</span>
+					</div>
+					<Typography
+						variant='caption1'
+						className='ml-2'
+					>
+						{getDateString()}
+					</Typography>
+				</>
+			)}
 		</div>
 	);
 }
