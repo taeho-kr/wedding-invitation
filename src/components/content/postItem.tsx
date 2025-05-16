@@ -3,8 +3,11 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Heart, MessageCircle } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
 import { useEffect, useState } from 'react';
-import Typography from '../ui/typography';
+import Typography from '@/components/ui/typography';
 import { cn } from '@/lib/utils';
+import Lottie from '@/components/ui/lottie';
+
+const HeartLottieURL = 'https://github.com/taeho-kr/wedding-invitation/tree/main/src/assets/lotties/heart.json';
 
 export default function PostItem({ id, author, date, content, description, likes, comments }: Post) {
 	const [api, setApi] = useState<CarouselApi>();
@@ -130,38 +133,43 @@ export default function PostItem({ id, author, date, content, description, likes
 						</Avatar>
 						<span>{author}</span>
 					</div>
-					{contents.length > 1 ? (
-						<Carousel
-							className='relative w-full'
-							setApi={setApi}
-						>
-							<CarouselContent>
-								{contents.map((content, index) => {
-									return (
-										<CarouselItem key={index}>
-											<img
-												src={content}
-												className='w-full h-full max-w-full max-h-full'
-												onDoubleClick={handleDoubleClickImage}
-											/>
-										</CarouselItem>
-									);
-								})}
-							</CarouselContent>
-							{count > 1 && (
-								<div className='absolute top-4 right-4 border rounded-full text-xs bg-[var(--background-tp)] px-2 py-0.5'>
-									{current}/{count}
-								</div>
-							)}
-						</Carousel>
-					) : (
-						<img
-							src={contents[0]}
-							className='w-full h-full max-w-full max-h-full'
-							onDoubleClick={handleDoubleClickImage}
+					<div className='relative w-full h-full'>
+						<Lottie
+							src={HeartLottieURL}
+							loop={false}
 						/>
-					)}
-
+						{contents.length > 1 ? (
+							<Carousel
+								className='relative w-full'
+								setApi={setApi}
+							>
+								<CarouselContent>
+									{contents.map((content, index) => {
+										return (
+											<CarouselItem key={index}>
+												<img
+													src={content}
+													className='w-full h-full max-w-full max-h-full'
+													onDoubleClick={handleDoubleClickImage}
+												/>
+											</CarouselItem>
+										);
+									})}
+								</CarouselContent>
+								{count > 1 && (
+									<div className='absolute top-4 right-4 border rounded-full text-xs bg-[var(--background-tp)] px-2 py-0.5'>
+										{current}/{count}
+									</div>
+								)}
+							</Carousel>
+						) : (
+							<img
+								src={contents[0]}
+								className='w-full h-full max-w-full max-h-full'
+								onDoubleClick={handleDoubleClickImage}
+							/>
+						)}
+					</div>
 					{count > 1 && (
 						<div className='w-full flex flex-row gap-1 items-center justify-center p-3'>
 							{contents.map((_, index) => (
