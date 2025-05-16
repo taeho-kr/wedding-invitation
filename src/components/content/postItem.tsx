@@ -7,8 +7,6 @@ import Typography from '../ui/typography';
 import { cn } from '@/lib/utils';
 
 export default function PostItem({ id, author, date, content, description, likes, comments }: Post) {
-	id;
-
 	const [api, setApi] = useState<CarouselApi>();
 	const [current, setCurrent] = useState(0);
 	const [count, setCount] = useState(0);
@@ -23,7 +21,7 @@ export default function PostItem({ id, author, date, content, description, likes
 
 	useEffect(() => {
 		const newContents = content.map((_) => {
-			const random = Math.floor(Math.random() * 100) + 200;
+			const random = Math.floor(Math.random() * 100) * 10 + 200;
 			return `https://picsum.photos/${random}/${random}`;
 		});
 
@@ -89,17 +87,27 @@ export default function PostItem({ id, author, date, content, description, likes
 		}
 	};
 
+	const handleClickHeart = () => {
+		console.log(id);
+	};
+
+	const handleClickComment = () => {
+		console.log(id);
+	};
+
+	const handleDoubleClickImage = () => {
+		console.log(id);
+	};
+
 	return (
 		<div className='flex flex-col items-start'>
-			{!firstImageLoaded && (
-				<img
-					src={contents[0]}
-					onLoad={() => setFirstImageLoaded(true)}
-					className='h-1 w-1'
-				/>
-			)}
 			{!firstImageLoaded ? (
 				<>
+					<img
+						src={contents[0]}
+						onLoad={() => setFirstImageLoaded(true)}
+						className='h-0 w-0'
+					/>
 					<div className='flex flex-row gap-2 items-center p-3'>
 						<Avatar>
 							<AvatarImage src='' />
@@ -134,6 +142,7 @@ export default function PostItem({ id, author, date, content, description, likes
 											<img
 												src={content}
 												className='w-full h-full max-w-full max-h-full'
+												onDoubleClick={handleDoubleClickImage}
 											/>
 										</CarouselItem>
 									);
@@ -149,6 +158,7 @@ export default function PostItem({ id, author, date, content, description, likes
 						<img
 							src={contents[0]}
 							className='w-full h-full max-w-full max-h-full'
+							onDoubleClick={handleDoubleClickImage}
 						/>
 					)}
 
@@ -171,11 +181,11 @@ export default function PostItem({ id, author, date, content, description, likes
 					)}
 					<div className='flex flex-row gap-4 p-2'>
 						<div className='flex flex-row gap-2'>
-							<Heart />
+							<Heart onClick={handleClickHeart} />
 							<span>{likes.toLocaleString()}</span>
 						</div>
 						<div className='flex flex-row gap-2'>
-							<MessageCircle />
+							<MessageCircle onClick={handleClickComment} />
 							<span>{comments.toLocaleString()}</span>
 						</div>
 					</div>

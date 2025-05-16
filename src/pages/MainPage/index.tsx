@@ -8,7 +8,7 @@ export default function MainPage() {
 					id={index}
 					key={index}
 					author='1'
-					content={new Array(Math.floor(Math.random() * 10) + 1).fill(0).map((_, index) => index.toString())}
+					content={new Array(Math.floor(Math.random() * 4) + 1).fill(0).map((_, index) => index.toString())}
 					comments={Math.floor(Math.random() * 100)}
 					date='2023-10-01'
 					description={'test' + index}
