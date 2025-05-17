@@ -311,7 +311,7 @@ export default function PostItem({
               ))}
             </div>
           )}
-          <div className="flex flex-col gap-1 px-2 text-start mt-2">
+          <div className="flex flex-col gap-1 px-4 text-start mt-2">
             <div className="flex flex-row gap-4">
               <div className="flex flex-row gap-2">
                 <Heart
@@ -323,7 +323,9 @@ export default function PostItem({
               </div>
             </div>
             <div className="flex flex-row gap-[4px]">
-              <strong onClick={handleClickProfile}>{user[0].name}</strong>
+              <div className="flex flex-row gap-[4px]">
+                <strong onClick={handleClickProfile}>{user[0].name}</strong>
+              </div>
               <span>{description}</span>
             </div>
             <Typography variant="caption1">{getDateString()}</Typography>

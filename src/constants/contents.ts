@@ -15,8 +15,8 @@ export const POSTS: Post[] = [
     content: [MainImage],
     likes: 0,
     comments: 0,
-    date: "2025-05-17",
-    description: "초대합니다!",
+    date: "2025-05-17T00:00:00+09:00",
+    description: "용은이와 태호의 결혼식에 초대합니다!",
   },
   {
     id: 1,
@@ -24,8 +24,8 @@ export const POSTS: Post[] = [
     content: [Image1_1, Image1_2, Image1_3, Image1_4],
     likes: 0,
     comments: 0,
-    date: "2025-05-17",
-    description: "초대합니다!",
+    date: "2025-05-17T17:30:00+09:00",
+    description: "Description1",
   },
   {
     id: 2,
@@ -33,7 +33,7 @@ export const POSTS: Post[] = [
     content: [Image2_1, Image2_2, Image2_3],
     likes: 0,
     comments: 0,
-    date: "2025-05-17",
-    description: "초대합니다!",
+    date: "2025-05-17T23:30:00+09:00",
+    description: "Description2",
   },
 ];
