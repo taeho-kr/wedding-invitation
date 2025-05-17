@@ -1,4 +1,4 @@
-import type { Post } from "@/types/content";
+import type { Post, User } from "@/types/content";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Heart } from "lucide-react";
 import {
@@ -11,12 +11,13 @@ import { useEffect, useState } from "react";
 import Typography from "@/components/ui/typography";
 import { cn } from "@/lib/utils";
 import Lottie from "@/components/ui/lottie";
+import { users } from "@/constants/users";
 
 const HeartLottieURL = "/lottie/heart.lottie";
 
 export default function PostItem({
   id,
-  author,
+  userID,
   date,
   content,
   description,
@@ -30,18 +31,14 @@ export default function PostItem({
     value: 0,
     unit: "day",
   });
-  const [contents, setContents] = useState<string[]>([]);
   const [playLottie, setPlayLottie] = useState<boolean>(false);
   const [like, setLike] = useState<boolean>(false);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const newContents = content.map((_) => {
-      const random = Math.floor(Math.random() * 100) * 10 + 200;
-      return `https://picsum.photos/${random}/${random}`;
-    });
-
-    setContents(newContents);
-  }, []);
+    const user = users.find((user) => user.id === userID);
+    if (user) setUser(user);
+  }, [user]);
 
   useEffect(() => {
     const date1 = new Date(date);
@@ -118,7 +115,7 @@ export default function PostItem({
       {!firstImageLoaded ? (
         <>
           <img
-            src={contents[0]}
+            src={content[0]}
             onLoad={() => setFirstImageLoaded(true)}
             className="h-0 w-0"
           />
@@ -144,10 +141,10 @@ export default function PostItem({
             )}
           >
             <Avatar>
-              <AvatarImage src="" />
+              <AvatarImage src={user?.profileImage} />
               <AvatarFallback>AV</AvatarFallback>
             </Avatar>
-            <span>{author}</span>
+            <span>{user?.name}</span>
           </div>
           <div className="relative w-full h-full">
             {playLottie && (
@@ -165,17 +162,18 @@ export default function PostItem({
                 }}
               />
             )}
-            {contents.length > 1 ? (
+            {content.length > 1 ? (
               <Carousel className="relative w-full" setApi={setApi}>
                 <CarouselContent>
-                  {contents.map((content, index) => {
+                  {content.map((content, index) => {
                     return (
                       <CarouselItem key={index}>
-                        <img
-                          src={content}
-                          className="w-full h-full max-w-full max-h-full"
-                          onDoubleClick={handleDoubleClickImage}
-                        />
+                        <div className="w-full h-full max-w-full max-h-full flex items-center justify-center bg-white">
+                          <img
+                            src={content}
+                            onDoubleClick={handleDoubleClickImage}
+                          />
+                        </div>
                       </CarouselItem>
                     );
                   })}
@@ -188,7 +186,7 @@ export default function PostItem({
               </Carousel>
             ) : (
               <img
-                src={contents[0]}
+                src={content[0]}
                 className="w-full h-full max-w-full max-h-full"
                 onDoubleClick={handleDoubleClickImage}
               />
@@ -196,7 +194,7 @@ export default function PostItem({
           </div>
           {count > 1 && (
             <div className="w-full flex flex-row gap-1 items-center justify-center p-3">
-              {contents.map((_, index) => (
+              {content.map((_, index) => (
                 <div
                   key={index}
                   className={cn(
@@ -222,7 +220,7 @@ export default function PostItem({
             </div>
           </div>
           <div className="flex flex-row gap-1 px-2">
-            <strong>{author}</strong>
+            <strong>{userID}</strong>
             <span>{description}</span>
           </div>
           <Typography variant="caption1" className="ml-2">

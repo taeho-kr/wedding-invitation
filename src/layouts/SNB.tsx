@@ -9,7 +9,7 @@ export function SNB() {
   };
 
   return (
-    <footer className="sticky bottom-[-1px] h-12 border-t bg-black flex flex-row justify-around items-center">
+    <footer className="sticky bottom-[-1px] h-12 bg-black flex flex-row justify-between items-center">
       {routes.map((route) => (
         <Link
           to={route.path}
@@ -17,7 +17,7 @@ export function SNB() {
           className="w-full h-full flex items-center justify-center"
           style={{
             backgroundColor: isActive(route.path) ? "white" : "",
-            color: isActive(route.path) ? "var(--focused)" : "",
+            color: isActive(route.path) ? "black" : "",
           }}
         >
           {route.icon}

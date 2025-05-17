@@ -56,7 +56,7 @@ export function Header() {
 
 	return (
 		<header
-			className='w-full flex flex-row justify-between items-center sticky top-0 border-b bg-black p-2 z-[999]'
+			className='w-full flex flex-row justify-between items-center sticky top-0 bg-black p-2 z-[999]'
 			style={{
 				transform: `translateY(-${translate}px)`,
 				transition: top > 60 ? 'transform 0.15s ease-in-out' : '',

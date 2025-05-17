@@ -33,7 +33,7 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	--radius: 0.625rem;
-	--background: #252525;
+	--background: #000000;
 	--background-tp: #262626bf;
 	--foreground: #fafafa;
 	--card: #353535;

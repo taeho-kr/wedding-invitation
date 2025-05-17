@@ -1,9 +1,15 @@
+export interface User {
+  id: number;
+  name: string;
+  profileImage: string;
+}
+
 export interface Post {
-	id: number;
-	author: string;
-	date: string;
-	content: string[];
-	description: string;
-	likes: number;
-	comments: number;
+  id: number;
+  userID: number;
+  date: string;
+  content: string[];
+  description: string;
+  likes: number;
+  comments: number;
 }
