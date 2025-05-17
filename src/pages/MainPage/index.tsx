@@ -2,14 +2,14 @@ import PostItem from "@/components/content/postItem";
 import { useEffect, useState } from "react";
 import type { Post } from "@/types/content";
 
-import MainImage from "@/assets/images/main.jpg";
-import Image1_1 from "@/assets/images/1-1.jpg";
-import Image1_2 from "@/assets/images/1-2.jpg";
-import Image1_3 from "@/assets/images/1-3.jpg";
-import Image1_4 from "@/assets/images/1-4.jpg";
-import Image2_1 from "@/assets/images/2-1.jpg";
-import Image2_2 from "@/assets/images/2-2.jpg";
-import Image2_3 from "@/assets/images/2-3.jpg";
+import MainImage from "@/assets/images/main.webp";
+import Image1_1 from "@/assets/images/1-1.webp";
+import Image1_2 from "@/assets/images/1-2.webp";
+import Image1_3 from "@/assets/images/1-3.webp";
+import Image1_4 from "@/assets/images/1-4.webp";
+import Image2_1 from "@/assets/images/2-1.webp";
+import Image2_2 from "@/assets/images/2-2.webp";
+import Image2_3 from "@/assets/images/2-3.webp";
 
 export default function MainPage() {
   const [posts, setPosts] = useState<Post[]>([]);
