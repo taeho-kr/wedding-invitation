@@ -2,7 +2,7 @@ import PostItem from '@/components/content/postItem';
 
 export default function MainPage() {
 	return (
-		<div className='flex flex-col gap-3 w-full h-full'>
+		<div className='flex flex-col gap-3 w-full h-full pb-5'>
 			{new Array(10).fill(0).map((_, index) => (
 				<PostItem
 					id={index}
