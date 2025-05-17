@@ -7,10 +7,12 @@ export const users: User[] = [
     id: 0,
     name: "taeho._.world",
     profileImage: TH,
+    profile: "https://www.instagram.com/taeho._.world/",
   },
   {
     id: 1,
     name: "_sis.chloey_",
     profileImage: YE,
+    profile: "https://www.instagram.com/_sis.chloey_/",
   },
 ];

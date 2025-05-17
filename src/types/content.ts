@@ -2,6 +2,7 @@ export interface User {
   id: number;
   name: string;
   profileImage: string;
+  profile: string;
 }
 
 export interface Post {

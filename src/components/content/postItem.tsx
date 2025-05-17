@@ -1,6 +1,6 @@
 import type { Post, User } from "@/types/content";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Heart } from "lucide-react";
+import { BadgeCheck, Heart } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -110,6 +110,12 @@ export default function PostItem({
     setLike(!like);
   };
 
+  const handleClickUser = () => {
+    if (user) {
+      window.open(user.profile, "_blank");
+    }
+  };
+
   return (
     <div className="flex flex-col items-start">
       {!firstImageLoaded ? (
@@ -136,15 +142,21 @@ export default function PostItem({
         <>
           <div
             className={cn(
-              "flex flex-row gap-2 items-center p-3",
+              "flex flex-row items-center justify-center px-2 py-3",
               !firstImageLoaded && "hidden"
             )}
+            onClick={handleClickUser}
           >
-            <Avatar>
+            <Avatar className="mr-3 h-[32px] w-[32px]">
               <AvatarImage src={user?.profileImage} />
               <AvatarFallback>AV</AvatarFallback>
             </Avatar>
-            <span>{user?.name}</span>
+            <span className="font-semibold mr-1">{user?.name}</span>
+            <BadgeCheck
+              color="black"
+              fill="var(--focused)"
+              className="w-4 h-4"
+            />
           </div>
           <div className="relative w-full h-full">
             {playLottie && (
@@ -209,23 +221,23 @@ export default function PostItem({
               ))}
             </div>
           )}
-          <div className="flex flex-row gap-4 p-2">
-            <div className="flex flex-row gap-2">
-              <Heart
-                onClick={handleClickHeart}
-                color={like ? "red" : "white"}
-                fill={like ? "red" : "transparent"}
-              />
-              <span>{likes.toLocaleString()}</span>
+          <div className="flex flex-col gap-1 px-2 text-start mt-2">
+            <div className="flex flex-row gap-4">
+              <div className="flex flex-row gap-2">
+                <Heart
+                  onClick={handleClickHeart}
+                  color={like ? "red" : "white"}
+                  fill={like ? "red" : "transparent"}
+                />
+                <span>{likes.toLocaleString()}</span>
+              </div>
             </div>
+            <div className="flex flex-row gap-[4px]">
+              <strong onClick={handleClickUser}>{user?.name}</strong>
+              <span>{description}</span>
+            </div>
+            <Typography variant="caption1">{getDateString()}</Typography>
           </div>
-          <div className="flex flex-row gap-1 px-2">
-            <strong>{userID}</strong>
-            <span>{description}</span>
-          </div>
-          <Typography variant="caption1" className="ml-2">
-            {getDateString()}
-          </Typography>
         </>
       )}
     </div>
