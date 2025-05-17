@@ -7,20 +7,20 @@ import Typography from '@/components/ui/typography';
 import { cn } from '@/lib/utils';
 import Lottie from '@/components/ui/lottie';
 
-const HeartLottieURL = 'https://github.com/taeho-kr/wedding-invitation/tree/main/src/assets/lotties/heart.json';
+const HeartLottieURL = '/lottie/heart.lottie';
 
 export default function PostItem({ id, author, date, content, description, likes, comments }: Post) {
 	const [api, setApi] = useState<CarouselApi>();
-	const [current, setCurrent] = useState(0);
-	const [count, setCount] = useState(0);
-	const [firstImageLoaded, setFirstImageLoaded] = useState(false);
-
+	const [current, setCurrent] = useState<number>(0);
+	const [count, setCount] = useState<number>(0);
+	const [firstImageLoaded, setFirstImageLoaded] = useState<boolean>(false);
 	const [dayDiff, setDayDiff] = useState({
 		value: 0,
 		unit: 'day',
 	});
-
 	const [contents, setContents] = useState<string[]>([]);
+	const [playLottie, setPlayLottie] = useState<boolean>(false);
+	const [like, setLike] = useState<boolean>(false);
 
 	useEffect(() => {
 		const newContents = content.map((_) => {
@@ -91,15 +91,15 @@ export default function PostItem({ id, author, date, content, description, likes
 	};
 
 	const handleClickHeart = () => {
-		console.log(id);
+		if (!like) setPlayLottie(true);
+		setLike(!like);
 	};
 
-	const handleClickComment = () => {
-		console.log(id);
-	};
+	const handleClickComment = () => {};
 
 	const handleDoubleClickImage = () => {
-		console.log(id);
+		if (!like) setPlayLottie(true);
+		setLike(!like);
 	};
 
 	return (
@@ -134,10 +134,21 @@ export default function PostItem({ id, author, date, content, description, likes
 						<span>{author}</span>
 					</div>
 					<div className='relative w-full h-full'>
-						<Lottie
-							src={HeartLottieURL}
-							loop={false}
-						/>
+						{playLottie && (
+							<Lottie
+								src={HeartLottieURL}
+								autoplay={true}
+								loop={false}
+								speed={1.5}
+								className={cn(
+									'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full z-10'
+								)}
+								onComplete={() => setPlayLottie(false)}
+								style={{
+									display: playLottie ? 'block' : 'none',
+								}}
+							/>
+						)}
 						{contents.length > 1 ? (
 							<Carousel
 								className='relative w-full'
@@ -189,7 +200,11 @@ export default function PostItem({ id, author, date, content, description, likes
 					)}
 					<div className='flex flex-row gap-4 p-2'>
 						<div className='flex flex-row gap-2'>
-							<Heart onClick={handleClickHeart} />
+							<Heart
+								onClick={handleClickHeart}
+								color={like ? 'red' : 'white'}
+								fill={like ? 'red' : 'transparent'}
+							/>
 							<span>{likes.toLocaleString()}</span>
 						</div>
 						<div className='flex flex-row gap-2'>

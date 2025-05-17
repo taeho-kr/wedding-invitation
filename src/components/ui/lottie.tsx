@@ -1,53 +1,51 @@
-import { useRef, useEffect, memo } from 'react';
-import lottie, { type AnimationItem } from 'lottie-web';
+import { useEffect, useState } from 'react';
+import { DotLottie, DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 interface Props {
 	src: string;
 	loop?: boolean;
 	autoplay?: boolean;
+	speed?: number;
 	className?: string;
+	style?: React.CSSProperties;
+	onComplete?: () => void;
 }
 
-const Lottie = memo(
-	({ src, loop = true, autoplay = true, className }: Props) => {
-		const container = useRef<HTMLDivElement | null>(null);
-		const player = useRef<AnimationItem | null>(null);
-		const [, assetsPath, name] = /(.+)\/(.+)\..+/.exec(src)!;
+const Lottie = ({ src, loop = true, speed = 1, autoplay = true, className, style, onComplete }: Props) => {
+	const [dotLottie, setDotLottie] = useState<DotLottie | null>(null);
+	const dotLottieRefCallback = (dotLottie: any) => {
+		setDotLottie(dotLottie);
+	};
 
-		useEffect(() => {
-			if (container.current == null) {
-				return;
+	useEffect(() => {
+		if (dotLottie) {
+			dotLottie.addEventListener('frame', onFrame);
+		}
+
+		return () => {
+			if (dotLottie) {
+				dotLottie.removeEventListener('frame', onFrame);
 			}
+		};
+	}, [dotLottie]);
 
-			player.current = lottie.loadAnimation({
-				container: container.current,
-				loop,
-				autoplay,
-				renderer: 'svg',
-				path: src,
-				assetsPath,
-				name,
-				rendererSettings: {
-					progressiveLoad: true,
-					hideOnTransparent: true,
-				},
-			});
+	const onFrame = ({ currentFrame }: { currentFrame: number }) => {
+		const c = Math.floor(currentFrame);
+		const t = Math.floor(dotLottie!.totalFrames);
+		if (c === t) onComplete?.();
+	};
 
-			return () => {
-				player.current?.destroy();
-			};
-		}, [assetsPath, autoplay, loop, name, src]);
-
-		return (
-			<div
-				className={className}
-				ref={container}
-			/>
-		);
-	},
-	(prev, next) => {
-		return prev.src === next.src && prev.loop === next.loop && prev.autoplay === next.autoplay;
-	}
-);
+	return (
+		<DotLottieReact
+			className={className}
+			style={style}
+			src={src}
+			autoplay={autoplay}
+			loop={loop}
+			speed={speed}
+			dotLottieRefCallback={dotLottieRefCallback}
+		/>
+	);
+};
 
 export default Lottie;
