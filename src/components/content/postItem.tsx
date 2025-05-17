@@ -33,11 +33,18 @@ export default function PostItem({
   });
   const [playLottie, setPlayLottie] = useState<boolean>(false);
   const [like, setLike] = useState<boolean>(false);
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User[]>([]);
+  const [profileImage, setProfileImage] = useState<string>("");
 
   useEffect(() => {
-    const user = users.find((user) => user.id === userID);
-    if (user) setUser(user);
+    const user = users.filter((user) => userID.includes(user.id));
+    if (user.length > 0) {
+      setUser(user);
+    }
+  }, [userID]);
+
+  useEffect(() => {
+    if (user.length > 0) getProfileImage();
   }, [user]);
 
   useEffect(() => {
@@ -100,7 +107,7 @@ export default function PostItem({
   };
 
   const handleClickHeart = () => {
-    console.log(id);
+    console.log("like post", id);
     if (!like) setPlayLottie(true);
     setLike(!like);
   };
@@ -110,10 +117,88 @@ export default function PostItem({
     setLike(!like);
   };
 
-  const handleClickUser = () => {
-    if (user) {
-      window.open(user.profile, "_blank");
+  const handleClickProfile = () => {
+    window.open(user[0].profile, "_blank");
+  };
+
+  const getProfileImage = async () => {
+    if (user.length === 1) setProfileImage(user[0].profileImage);
+    else if (user.length === 2) {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      if (!ctx) {
+        console.error("Error: Failed to get canvas context");
+        return "";
+      }
+
+      canvas.width = 100;
+      canvas.height = 100;
+
+      ctx.fillStyle = "black";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      const loadImage = (src: string) => {
+        return new Promise((resolve, reject) => {
+          if (!src || typeof src !== "string") {
+            reject(new Error(`Invalid image source: ${src}`));
+            return;
+          }
+          const img = new Image();
+          img.onload = () => resolve(img);
+          img.onerror = () => reject(new Error(`Failed to load image: ${src}`));
+          img.src = src;
+        });
+      };
+
+      try {
+        const [img1, img2]: any[] = await Promise.all([
+          loadImage(user[0].profileImage).catch((err) => {
+            console.error("Error loading first image:", err.message);
+            throw err;
+          }),
+          loadImage(user[1].profileImage).catch((err) => {
+            console.error("Error loading second image:", err.message);
+            throw err;
+          }),
+        ]);
+
+        const img1Canvas = document.createElement("canvas");
+        const img1Ctx = img1Canvas.getContext("2d")!;
+        img1Canvas.width = 100;
+        img1Canvas.height = 100;
+        img1Ctx.save();
+        img1Ctx.beginPath();
+        img1Ctx.arc(50, 50, 50, 0, Math.PI * 2);
+        img1Ctx.clip();
+        img1Ctx.drawImage(img1, 0, 0, 100, 100);
+        img1Ctx.restore();
+        img1Ctx.beginPath();
+        img1Ctx.arc(50, 50, 50, 0, Math.PI * 2);
+        img1Ctx.strokeStyle = "black";
+        img1Ctx.lineWidth = 4;
+        img1Ctx.stroke();
+
+        const img2Canvas = document.createElement("canvas");
+        const img2Ctx = img2Canvas.getContext("2d")!;
+        img2Canvas.width = 100;
+        img2Canvas.height = 100;
+        img2Ctx.save();
+        img2Ctx.beginPath();
+        img2Ctx.arc(50, 50, 50, 0, Math.PI * 2);
+        img2Ctx.clip();
+        img2Ctx.drawImage(img2, 0, 0, 100, 100);
+        img2Ctx.restore();
+
+        ctx.drawImage(img2Canvas, 33, 0, 66, 66);
+        ctx.drawImage(img1Canvas, 0, 33, 66, 66);
+
+        setProfileImage(canvas.toDataURL("image/png"));
+      } catch (error) {
+        return;
+      }
     }
+
+    return;
   };
 
   return (
@@ -145,18 +230,23 @@ export default function PostItem({
               "flex flex-row items-center justify-center px-2 py-3",
               !firstImageLoaded && "hidden"
             )}
-            onClick={handleClickUser}
+            onClick={handleClickProfile}
           >
             <Avatar className="mr-3 h-[32px] w-[32px]">
-              <AvatarImage src={user?.profileImage} />
-              <AvatarFallback>AV</AvatarFallback>
+              <AvatarImage src={profileImage} />
             </Avatar>
-            <span className="font-semibold mr-1">{user?.name}</span>
-            <BadgeCheck
-              color="black"
-              fill="var(--focused)"
-              className="w-4 h-4"
-            />
+            <span className="font-semibold mr-1">
+              {user.length === 1
+                ? user[0].name
+                : user.map((el) => el.name).join(" 및 ")}
+            </span>
+            {user.length === 1 && (
+              <BadgeCheck
+                color="black"
+                fill="var(--focused)"
+                className="w-4 h-4"
+              />
+            )}
           </div>
           <div className="relative w-full h-full">
             {playLottie && (
@@ -233,7 +323,7 @@ export default function PostItem({
               </div>
             </div>
             <div className="flex flex-row gap-[4px]">
-              <strong onClick={handleClickUser}>{user?.name}</strong>
+              <strong onClick={handleClickProfile}>{user[0].name}</strong>
               <span>{description}</span>
             </div>
             <Typography variant="caption1">{getDateString()}</Typography>

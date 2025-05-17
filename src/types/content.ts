@@ -7,7 +7,7 @@ export interface User {
 
 export interface Post {
   id: number;
-  userID: number;
+  userID: number[];
   date: string;
   content: string[];
   description: string;
