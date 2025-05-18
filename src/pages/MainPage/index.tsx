@@ -1,9 +1,11 @@
 import PostItem from "@/components/content/postItem";
 import { POSTS } from "@/constants/contents";
+import { Header } from "@/layouts/Header";
 
 export default function MainPage() {
   return (
-    <div className="flex flex-col gap-3 w-full h-full pb-5">
+    <div className="flex flex-col gap-3 w-full h-full pb-5 relative">
+      <Header />
       {POSTS.map((post, index) => (
         <PostItem
           key={index}

@@ -34,11 +34,14 @@ export default function MapPage() {
           * 사진을 클릭하시면 네이버 지도로 이동합니다.
         </Typography>
       </div>
-      <div className="flex flex-col my-5 pl-3">
-        <Typography variant="title2" className="mb-3">
-          그랜드힐 컨벤션
+      <div className="flex flex-col my-4 pl-3">
+        <Typography variant="title2">그랜드힐 컨벤션</Typography>
+        <Typography variant="body1" className="mb-3">
+          사브리나홀(2층)
         </Typography>
-
+        <Typography variant="body1" className="mb-2">
+          2025년 10월 25일 토요일 14:30
+        </Typography>
         {address.map((item, index) => (
           <div key={index}>
             <Typography variant="caption1" className="mr-2 inline-block w-9">
@@ -63,6 +66,14 @@ export default function MapPage() {
             </Typography>
           </div>
         ))}
+        <Typography variant="body2" className="mt-3">
+          <strong>삼성역 1번 출구</strong>&nbsp;셔틀버스 2분
+          <br />
+          <strong>삼성역 2번 출구</strong>&nbsp;도보 5분
+        </Typography>
+        <Typography variant="body2" className="mt-3">
+          800대 수용 가능한 자체 <strong>주차장</strong>에 3시간 무료 주차 가능
+        </Typography>
       </div>
     </main>
   );

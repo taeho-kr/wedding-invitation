@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router";
 import "./App.css";
-import { Header } from "./layouts/Header";
 import { SNB } from "./layouts/SNB";
 import { routes } from "./routes";
 import { Toaster } from "@/components/ui/sonner";
@@ -8,7 +7,6 @@ import { Toaster } from "@/components/ui/sonner";
 function App() {
   return (
     <div className="relative h-full w-full flex flex-col">
-      <Header />
       <Routes>
         {routes.map((route, index) => {
           return (
