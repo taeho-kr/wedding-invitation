@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { routes } from "@/routes";
 import { Link, useLocation } from "react-router";
 
@@ -14,11 +15,12 @@ export function SNB() {
         <Link
           to={route.path}
           key={route.path}
-          className="w-full h-full flex items-center justify-center"
-          style={{
-            backgroundColor: isActive(route.path) ? "white" : "",
-            color: isActive(route.path) ? "black" : "",
-          }}
+          className={cn(
+            "w-full h-full flex items-center justify-center",
+            isActive(route.path) && "[&_img]:border-2 [&_img]:border-white",
+            isActive(route.path) &&
+              "[&_svg]:fill-[var(--background-tp)] [&_svg]:stroke-[var(--focused)]"
+          )}
         >
           {route.icon}
         </Link>

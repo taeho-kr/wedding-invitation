@@ -15,7 +15,7 @@ const address = [
 
 export default function MapPage() {
   return (
-    <main className="flex flex-col w-full h-full min-h-[100vh] flex-1 text-left">
+    <main className="flex flex-col w-full h-full text-left">
       <div
         onClick={() =>
           window.open(

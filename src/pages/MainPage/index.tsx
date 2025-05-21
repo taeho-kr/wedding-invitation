@@ -4,7 +4,7 @@ import { Header } from "@/layouts/Header";
 
 export default function MainPage() {
   return (
-    <div className="flex flex-col gap-3 w-full h-full pb-5 relative">
+    <div className="flex flex-col gap-3 w-full h-full pb-5">
       <Header />
       {POSTS.map((post, index) => (
         <PostItem
