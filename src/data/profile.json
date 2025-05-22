@@ -1,0 +1,18 @@
+[
+	{
+		"uid": "1",
+		"id": "flowerphant.studio",
+		"name": "FLOWER PHANT 🇰🇷",
+		"image": "/src/assets/images/yongeun_profile.jpg",
+		"job": "예술가",
+		"comment": "📧 flowerphant.studio@gmail.com"
+	},
+	{
+		"uid": "2",
+		"id": "taeho._.world",
+		"name": "Taeho",
+		"image": "/src/assets/images/taeho_profile.jpg",
+		"job": "Frontend Engineer",
+		"comment": "Hi"
+	}
+]
