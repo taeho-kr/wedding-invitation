@@ -5,6 +5,16 @@ export interface User {
   profile: string;
 }
 
+export interface UserProfile extends User {
+  iam: "Groom" | "Bride";
+  mbti: string;
+  birth: string;
+  job: string;
+  comment: string;
+  image: string;
+  posts: Post[];
+}
+
 export interface Post {
   id: number;
   userID: number[];
