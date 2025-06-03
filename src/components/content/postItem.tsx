@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import Typography from "@/components/ui/typography";
 import { cn } from "@/lib/utils";
 import Lottie from "@/components/ui/lottie";
-import { users } from "@/constants/users";
+import users from "@/data/user.json";
 
 const HeartLottieURL = "/lottie/heart.lottie";
 
@@ -34,17 +34,17 @@ export default function PostItem({
   const [playLottie, setPlayLottie] = useState<boolean>(false);
   const [like, setLike] = useState<boolean>(false);
   const [user, setUser] = useState<User[]>([]);
-  const [profileImage, setProfileImage] = useState<string>("");
+  const [image, setimage] = useState<string>("");
 
   useEffect(() => {
-    const user = users.filter((user) => userID.includes(user.id));
+    const user = users.filter((user) => userID.includes(user.id)) as User[];
     if (user.length > 0) {
       setUser(user);
     }
   }, [userID]);
 
   useEffect(() => {
-    if (user.length > 0) getProfileImage();
+    if (user.length > 0) getimage();
   }, [user]);
 
   useEffect(() => {
@@ -121,8 +121,8 @@ export default function PostItem({
     window.open(user[0].profile, "_blank");
   };
 
-  const getProfileImage = async () => {
-    if (user.length === 1) setProfileImage(user[0].profileImage);
+  const getimage = async () => {
+    if (user.length === 1) setimage(user[0].image);
     else if (user.length === 2) {
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d");
@@ -152,11 +152,11 @@ export default function PostItem({
 
       try {
         const [img1, img2]: any[] = await Promise.all([
-          loadImage(user[0].profileImage).catch((err) => {
+          loadImage(user[0].image).catch((err) => {
             console.error("Error loading first image:", err.message);
             throw err;
           }),
-          loadImage(user[1].profileImage).catch((err) => {
+          loadImage(user[1].image).catch((err) => {
             console.error("Error loading second image:", err.message);
             throw err;
           }),
@@ -192,7 +192,7 @@ export default function PostItem({
         ctx.drawImage(img2Canvas, 33, 0, 66, 66);
         ctx.drawImage(img1Canvas, 0, 33, 66, 66);
 
-        setProfileImage(canvas.toDataURL("image/png"));
+        setimage(canvas.toDataURL("image/png"));
       } catch (error) {
         return;
       }
@@ -233,7 +233,7 @@ export default function PostItem({
             onClick={handleClickProfile}
           >
             <Avatar className="mr-3 h-[32px] w-[32px]">
-              <AvatarImage src={profileImage} />
+              <AvatarImage src={image} />
             </Avatar>
             <span className="font-semibold mr-1">
               {user.length === 1

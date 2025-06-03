@@ -1,7 +1,7 @@
 export interface User {
   id: number;
   name: string;
-  profileImage: string;
+  image: string;
   profile: string;
 }
 
