@@ -37,7 +37,7 @@ export default function PostItem({
   const [image, setimage] = useState<string>("");
 
   useEffect(() => {
-    const user = users.filter((user) => userID.includes(user.id)) as User[];
+    const user = users.filter((user) => userID.includes(user.uid)) as User[];
     if (user.length > 0) {
       setUser(user);
     }
@@ -202,7 +202,7 @@ export default function PostItem({
   };
 
   return (
-    <div className="flex flex-col items-start">
+    <div id={`post-${id}`} className="flex flex-col items-start">
       {!firstImageLoaded ? (
         <>
           <img

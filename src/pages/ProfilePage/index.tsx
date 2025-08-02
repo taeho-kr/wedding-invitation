@@ -1,9 +1,15 @@
+import { useEffect, useRef, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import Typography from "@/components/ui/typography";
 import profiles from "@/data/profile.json";
-import type { UserProfile } from "@/types/content";
-import { useEffect, useState } from "react";
+import { POSTS } from "@/constants/contents.ts";
+import type { Post, UserProfile } from "@/types/content";
+import PostList from "@/components/content/postList";
+import { ArrowLeft } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+const ANIMATE_DURATION = 400;
 
 interface Props {
   userID: string;
@@ -22,18 +28,64 @@ const NumberPannel = (value: any, label: string) => {
 
 export default function ProfilePage({ userID }: Props) {
   const [user, setUser] = useState<UserProfile | null>(null);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [openPopup, setOpenPopup] = useState<boolean>(false);
+  const [showPopup, setShowPopup] = useState<boolean>(false);
+  const [popupIndex, setPopupIndex] = useState<number>(0);
+
+  const $list = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const userData = (profiles.find((profile) => profile.id === userID) ??
-        null) as UserProfile | null;
-      if (userData) {
-        setUser(userData);
-      }
-    };
+    if (!openPopup) {
+      setTimeout(() => {
+        setShowPopup(false);
+      }, ANIMATE_DURATION);
+    } else {
+      setShowPopup(true);
+    }
+  }, [openPopup]);
 
+  useEffect(() => {
+    if (showPopup) {
+      if ($list.current) {
+        const targetItem = document.getElementById(`post-${popupIndex}`);
+        if (targetItem) {
+          const itemRect = targetItem.getBoundingClientRect();
+          const listRect = $list.current.getBoundingClientRect();
+          const scrollTop =
+            itemRect.top - listRect.top + $list.current.scrollTop;
+          const headerSizeOfItem = 45;
+          $list.current.scrollTo({
+            top: scrollTop - headerSizeOfItem,
+          });
+        }
+      }
+    }
+  }, [showPopup, popupIndex]);
+
+  const fetchUser = async () => {
+    const userData = (profiles.find((profile) => profile.id === userID) ??
+      null) as UserProfile | null;
+    if (userData) {
+      setUser(userData);
+    }
+  };
+
+  const fetchPosts = async (uid: number) => {
+    const userPosts = POSTS.filter((p) => p.userID.includes(uid));
+    if (userPosts.length > 0) {
+      setPosts(userPosts);
+    }
+  };
+
+  useEffect(() => {
     fetchUser();
   }, [userID]);
+
+  useEffect(() => {
+    if (!user) return;
+    fetchPosts(user.uid);
+  }, [user]);
 
   return (
     <div className="flex flex-col w-full h-full pt-3">
@@ -46,7 +98,6 @@ export default function ProfilePage({ userID }: Props) {
           <Avatar className="w-[77px] h-[77px]">
             <AvatarImage src={user?.image} />
             <AvatarFallback className="capitalize">
-              {userID.substring(0, 2)}
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col w-full items-start">
@@ -68,15 +119,37 @@ export default function ProfilePage({ userID }: Props) {
             메시지 보내기
           </Button>
         </div>
-        <div className="w-full inline-block items-start jusify-start">
-          {new Array(9).fill(0).map((_, index) => (
+        <div className="w-full inline-block text-left">
+          {posts.map((post, index) => (
             <img
               key={index}
-              src={"https://placehold.co/300x400"}
-              className="inline w-1/3 aspect-3/4 obeject-contain p-0.5"
+              src={post.content[0]}
+              className="inline w-1/3 aspect-3/4 object-cover p-0.5"
+              onClick={() => {
+                setOpenPopup(true);
+                setPopupIndex(post.id);
+              }}
             />
           ))}
         </div>
+      </div>
+      <div
+        ref={$list}
+        className={cn(
+          "w-full h-full fixed top-0 left-0 bg-black overflow-auto",
+          openPopup
+            ? "translate-x-0 transition-transform duration-300"
+            : "translate-x-full transition-transform duration-300"
+        )}
+        style={{
+          visibility: showPopup ? "visible" : "hidden",
+        }}
+      >
+        <div className="sticky top-0 left-0 w-full h-13 flex flex-row gap-8 items-center px-4 z-2 bg-black">
+          <ArrowLeft onClick={() => setOpenPopup(false)} />
+          <Typography variant="heading2">게시물</Typography>
+        </div>
+        <PostList posts={posts} />
       </div>
     </div>
   );
