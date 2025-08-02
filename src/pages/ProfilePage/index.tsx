@@ -36,6 +36,12 @@ export default function ProfilePage({ userID }: Props) {
   const $list = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setPopupIndex(0);
+    setOpenPopup(false);
+    setShowPopup(false);
+  }, [userID]);
+
+  useEffect(() => {
     if (!openPopup) {
       setTimeout(() => {
         setShowPopup(false);
@@ -97,8 +103,7 @@ export default function ProfilePage({ userID }: Props) {
         <div className="flex flex-row gap-4 w-full mt-5">
           <Avatar className="w-[77px] h-[77px]">
             <AvatarImage src={user?.image} />
-            <AvatarFallback className="capitalize">
-            </AvatarFallback>
+            <AvatarFallback className="capitalize"></AvatarFallback>
           </Avatar>
           <div className="flex flex-col w-full items-start">
             <Typography>{user?.name}</Typography>
@@ -120,9 +125,9 @@ export default function ProfilePage({ userID }: Props) {
           </Button>
         </div>
         <div className="w-full inline-block text-left">
-          {posts.map((post, index) => (
+          {posts.map((post) => (
             <img
-              key={index}
+              key={post.id}
               src={post.content[0]}
               className="inline w-1/3 aspect-3/4 object-cover p-0.5"
               onClick={() => {

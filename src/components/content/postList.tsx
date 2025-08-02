@@ -8,9 +8,9 @@ interface Props {
 export default function PostList({ posts }: Props) {
   return (
     <div className="w-full h-full">
-      {posts.map((post, index) => (
+      {posts.map((post) => (
         <PostItem
-          key={index}
+          key={post.id}
           id={post.id}
           userID={post.userID}
           content={post.content}
