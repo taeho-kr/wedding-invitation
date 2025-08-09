@@ -2,12 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import Typography from "@/components/ui/typography";
-import profiles from "@/data/profile.json";
 import { POSTS } from "@/constants/contents.ts";
 import type { Post, UserProfile } from "@/types/content";
 import PostList from "@/components/content/postList";
 import { ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { PROFILES } from "@/constants/profiles";
 
 const ANIMATE_DURATION = 400;
 
@@ -70,7 +70,7 @@ export default function ProfilePage({ userID }: Props) {
   }, [showPopup, popupIndex]);
 
   const fetchUser = async () => {
-    const userData = (profiles.find((profile) => profile.id === userID) ??
+    const userData = (PROFILES.find((profile) => profile.id === userID) ??
       null) as UserProfile | null;
     if (userData) {
       setUser(userData);

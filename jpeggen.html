@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WebP Converter</title>
+    <title>이미지 to JPG 변환기</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -68,8 +68,8 @@
     </style>
   </head>
   <body>
-    <h1>WebP 변환기</h1>
-    <input type="file" id="fileInput" accept="image/jpeg" />
+    <h1>이미지 to JPG 변환기</h1>
+    <input type="file" id="fileInput" accept="image/*" />
     <div class="quality-container">
       <label for="qualityRange">품질 (%):</label>
       <input
@@ -84,18 +84,16 @@
     </div>
     <button id="convertButton" disabled>변환하기</button>
     <div id="status"></div>
-    <button id="downloadButton" disabled>WebP 다운로드</button>
+    <button id="downloadButton" disabled>JPG 다운로드</button>
 
     <script>
-      // 파일 크기를 읽기 쉬운 형식으로 변환
       function formatFileSize(bytes) {
         if (bytes < 1024) return bytes + " B";
         if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + " KB";
         return (bytes / (1024 * 1024)).toFixed(2) + " MB";
       }
 
-      // JPG를 WebP로 변환
-      function convertJpgToWebp(jpgFile, quality) {
+      function convertToJpg(imageFile, quality) {
         return new Promise((resolve, reject) => {
           const img = new Image();
           const reader = new FileReader();
@@ -103,7 +101,7 @@
             img.src = e.target.result;
           };
           reader.onerror = reject;
-          reader.readAsDataURL(jpgFile);
+          reader.readAsDataURL(imageFile);
 
           img.onload = function () {
             const canvas = document.createElement("canvas");
@@ -116,10 +114,10 @@
                 if (blob) {
                   resolve(blob);
                 } else {
-                  reject(new Error("WebP 변환 실패"));
+                  reject(new Error("JPG 변환 실패"));
                 }
               },
-              "image/webp",
+              "image/jpeg",
               quality
             );
           };
@@ -127,7 +125,6 @@
         });
       }
 
-      // 품질 입력 동기화
       const qualityRange = document.getElementById("qualityRange");
       const qualityNumber = document.getElementById("qualityNumber");
       qualityRange.addEventListener("input", () => {
@@ -141,21 +138,19 @@
         qualityRange.value = value;
       });
 
-      // 파일 입력 및 버튼 처리
       const fileInput = document.getElementById("fileInput");
       const convertButton = document.getElementById("convertButton");
       const downloadButton = document.getElementById("downloadButton");
       const status = document.getElementById("status");
       let selectedFile = null;
-      let webpBlob = null;
-      let webpFileName = "";
+      let jpgBlob = null;
+      let jpgFileName = "";
 
-      // 파일 선택 시 변환 버튼 활성화
       fileInput.addEventListener("change", function (event) {
         status.textContent = "";
         status.className = "";
         downloadButton.disabled = true;
-        webpBlob = null;
+        jpgBlob = null;
 
         selectedFile = event.target.files[0];
         if (!selectedFile || !selectedFile.type.match("image/*")) {
@@ -169,7 +164,6 @@
         status.textContent = "변환하기 버튼을 눌러 변환을 시작하세요.";
       });
 
-      // 변환 버튼 클릭 시 WebP 변환 수행
       convertButton.addEventListener("click", async function () {
         if (!selectedFile) {
           status.textContent = "파일을 선택해주세요.";
@@ -183,25 +177,21 @@
         downloadButton.disabled = true;
 
         try {
-          const jpgSize = selectedFile.size;
+          const originalSize = selectedFile.size;
           const quality = parseInt(qualityRange.value) / 100;
-          webpBlob = await convertJpgToWebp(selectedFile, quality);
-          const webpSize = webpBlob.size;
+          jpgBlob = await convertToJpg(selectedFile, quality);
+          const jpgSize = jpgBlob.size;
 
-          // 새 탭에서 JPG와 WebP 이미지 열기
-          const jpgUrl = URL.createObjectURL(selectedFile);
-          const webpUrl = URL.createObjectURL(webpBlob);
-          // window.open(jpgUrl, '_blank');
-          window.open(webpUrl, "_blank");
+          const jpgUrl = URL.createObjectURL(jpgBlob);
+          window.open(jpgUrl, "_blank");
 
-          // 파일 이름 설정
-          webpFileName = selectedFile.name.replace(/\.[^/.]+$/, "") + ".webp";
+          jpgFileName = selectedFile.name.replace(/\.[^/.]+$/, "") + ".jpg";
           downloadButton.disabled = false;
           convertButton.disabled = false;
 
           status.textContent = `변환 완료! 이미지가 새 탭에서 열렸습니다.\n변환 전: ${formatFileSize(
-            jpgSize
-          )}\n변환 후: ${formatFileSize(webpSize)}`;
+            originalSize
+          )}\n변환 후: ${formatFileSize(jpgSize)}`;
           status.className = "success";
         } catch (error) {
           status.textContent = "변환 오류: " + error.message;
@@ -210,13 +200,12 @@
         }
       });
 
-      // 다운로드 버튼 클릭 처리
       downloadButton.addEventListener("click", () => {
-        if (webpBlob) {
-          const url = URL.createObjectURL(webpBlob);
+        if (jpgBlob) {
+          const url = URL.createObjectURL(jpgBlob);
           const link = document.createElement("a");
           link.href = url;
-          link.download = webpFileName;
+          link.download = jpgFileName;
           link.click();
           URL.revokeObjectURL(url);
         }
