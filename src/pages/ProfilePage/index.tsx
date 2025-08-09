@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import Typography from "@/components/ui/typography";
 import { POSTS } from "@/constants/contents.ts";
-import type { Post, UserProfile } from "@/types/content";
+import type { Post, User } from "@/types/content";
 import PostList from "@/components/content/postList";
 import { ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -27,7 +27,7 @@ const NumberPannel = (value: any, label: string) => {
 };
 
 export default function ProfilePage({ userID }: Props) {
-  const [user, setUser] = useState<UserProfile | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [posts, setPosts] = useState<Post[]>([]);
   const [openPopup, setOpenPopup] = useState<boolean>(false);
   const [showPopup, setShowPopup] = useState<boolean>(false);
@@ -71,7 +71,7 @@ export default function ProfilePage({ userID }: Props) {
 
   const fetchUser = async () => {
     const userData = (PROFILES.find((profile) => profile.id === userID) ??
-      null) as UserProfile | null;
+      null) as User | null;
     if (userData) {
       setUser(userData);
     }

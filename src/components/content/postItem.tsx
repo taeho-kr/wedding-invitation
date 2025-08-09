@@ -11,7 +11,8 @@ import { useEffect, useState } from "react";
 import Typography from "@/components/ui/typography";
 import { cn } from "@/lib/utils";
 import Lottie from "@/components/ui/lottie";
-import users from "@/data/user.json";
+import { PROFILES } from "@/constants/profiles";
+import { useNavigate } from "react-router";
 
 const HeartLottieURL = "/lottie/heart.lottie";
 
@@ -36,8 +37,10 @@ export default function PostItem({
   const [user, setUser] = useState<User[]>([]);
   const [image, setimage] = useState<string>("");
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    const user = users.filter((user) => userID.includes(user.uid)) as User[];
+    const user = PROFILES.filter((user) => userID.includes(user.uid)) as User[];
     if (user.length > 0) {
       setUser(user);
     }
@@ -118,7 +121,7 @@ export default function PostItem({
   };
 
   const handleClickProfile = () => {
-    window.open(user[0].profile, "_blank");
+    navigate(`/profile/${user[0].id}`);
   };
 
   const getimage = async () => {

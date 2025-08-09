@@ -1,7 +1,8 @@
 import YongeunProfile from "@/assets/images/yongeun_profile.jpg";
 import TaehoProfile from "@/assets/images/taeho_profile.jpg";
+import type { User } from "@/types/content";
 
-export const PROFILES = [
+export const PROFILES: User[] = [
   {
     uid: 0,
     id: "flowerphant.studio",

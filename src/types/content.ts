@@ -2,18 +2,13 @@ export interface User {
   uid: number;
   id: string;
   name: string;
-  image: string;
-  profile: string;
-}
-
-export interface UserProfile extends User {
+  image: any;
   iam: "Groom" | "Bride";
   mbti: string;
   birth: string;
   job: string;
   comment: string;
-  image: string;
-  posts: Post[];
+  posts?: Post[];
 }
 
 export interface Post {
