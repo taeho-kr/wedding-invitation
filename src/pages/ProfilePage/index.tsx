@@ -8,6 +8,7 @@ import PostList from "@/components/content/postList";
 import { ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PROFILES } from "@/constants/profiles";
+import { toast } from "sonner";
 
 const ANIMATE_DURATION = 400;
 
@@ -93,6 +94,17 @@ export default function ProfilePage({ userID }: Props) {
     fetchPosts(user.uid);
   }, [user]);
 
+  const handleClickCelebrate = () => {
+    // user.bank를 클립보드에 복사
+    navigator.clipboard.writeText(user?.bank || "");
+    toast.success(`${user?.bank}를 클립보드에 복사했어요.`);
+  }
+
+  const handleClickMessage = () => {
+    // instagram 계정으로 이동
+    window.open(`https://instagram.com/${user?.id}`, "_blank");
+  }
+
   return (
     <div className="flex flex-col w-full h-full pt-3">
       <div
@@ -117,10 +129,10 @@ export default function ProfilePage({ userID }: Props) {
         <Typography className="mt-2 text-[var(--ring)]">{user?.job}</Typography>
         <Typography>{user?.comment}</Typography>
         <div className="w-full flex flex-row gap-2 my-2 items-center justify-center">
-          <Button variant="outline" className="border-white flex-1" size="sm">
+          <Button variant="outline" className="border-white flex-1" onClick={handleClickCelebrate}>
             축의 보내기
           </Button>
-          <Button variant="outline" className="border-white flex-1" size="sm">
+          <Button variant="outline" className="border-white flex-1" onClick={handleClickMessage}>
             메시지 보내기
           </Button>
         </div>

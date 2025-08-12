@@ -9,6 +9,7 @@ export interface User {
   job: string;
   comment: string;
   posts?: Post[];
+  bank: string;
 }
 
 export interface Post {

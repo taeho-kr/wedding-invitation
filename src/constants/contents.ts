@@ -1,35 +1,52 @@
 import type { Post } from "@/types/content";
-import MainImage from "@/assets/images/KDW_23_054_F2.webp";
+import KDW_23_054_F2 from "@/assets/images/KDW_23_054_F2.webp";
 
-import Image0_1 from "@/assets/images/KDW_16_039_F2.webp";
-import Image0_2 from "@/assets/images/KDW_17_037_F2.webp";
-import Image0_3 from "@/assets/images/KDW_18_005_F2.webp";
+import KDW_16_039_F2 from "@/assets/images/KDW_16_039_F2.webp";
+import KDW_17_037_F2 from "@/assets/images/KDW_17_037_F2.webp";
+import KDW_14_024_F2 from "@/assets/images/KDW_14_024_F2.webp";
+import KDW_18_005_F2 from "@/assets/images/KDW_18_005_F2.webp";
+import KDW_09_033_F2 from "@/assets/images/KDW_09_033_F2.webp";
+import KDW_03_012_F2___KDW_04_027_F2 from "@/assets/images/KDW_03_012_F2 + KDW_04_027_F2.webp";
+import KDW_04_027_F2 from "@/assets/images/KDW_04_027_F2.webp";
+import KDW_03_012_F2 from "@/assets/images/KDW_03_012_F2.webp";
+import KDW_11_034_F2 from "@/assets/images/KDW_11_034_F2.webp";
+import KDW_06_032_F2 from "@/assets/images/KDW_06_032_F2.webp";
+import KDW_02_008_F2 from "@/assets/images/KDW_02_008_F2.webp";
+import KDW_05_008_F2 from "@/assets/images/KDW_05_008_F2.webp";
+import KDW_12_043_F2 from "@/assets/images/KDW_12_043_F2.webp";
+import KDW_12_056_F2 from "@/assets/images/KDW_12_056_F2.webp";
+import KDW_08_030_F2 from "@/assets/images/KDW_08_030_F2.webp";
+import KDW_10_040_F2 from "@/assets/images/KDW_10_040_F2.webp";
 
-import Image1_1 from "@/assets/images/KDW_03_012_F2 + KDW_04_027_F2.webp";
-import Image1_2 from "@/assets/images/KDW_04_027_F2.webp";
-import Image1_3 from "@/assets/images/KDW_03_012_F2.webp";
+import yongeun_mbti from "@/assets/images/yongeun_mbti.webp";
+import KDW_07_039_F2 from "@/assets/images/KDW_07_039_F2.webp";
+import KDW_13_062_F2 from "@/assets/images/KDW_13_062_F2.webp";
 
-import Image2_1 from "@/assets/images/KDW_06_032_F2.webp";
-import Image2_2 from "@/assets/images/KDW_02_008_F2.webp";
-import Image2_3 from "@/assets/images/KDW_05_008_F2.webp";
-
-import Image3_1 from "@/assets/images/KDW_12_043_F2.webp";
-import Image3_2 from "@/assets/images/KDW_12_056_F2.webp";
-import Image3_3 from "@/assets/images/KDW_08_030_F2.webp";
-import Image3_4 from "@/assets/images/KDW_10_040_F2.webp";
-
-import YMBTI from "@/assets/images/yongeun_mbti.webp";
-import YImage0_1 from "@/assets/images/KDW_07_039_F2.webp";
-import YImage0_2 from "@/assets/images/KDW_13_062_F2.webp";
-
-import TMBTI from "@/assets/images/taeho_mbti.webp";
-
+import taeho_mbti from "@/assets/images/taeho_mbti.webp";
 
 export const POSTS: Post[] = [
   {
+    id: 9,
+    userID: [0],
+    content: [yongeun_mbti],
+    likes: 0,
+    comments: 0,
+    date: "2025-05-17T23:30:00+09:00",
+    description: "Description2",
+  },
+  {
+    id: 10,
+    userID: [1],
+    content: [taeho_mbti],
+    likes: 0,
+    comments: 0,
+    date: "2025-05-17T23:30:00+09:00",
+    description: "Description2",
+  },
+  {
     id: 0,
-    userID: [1, 0],
-    content: [MainImage],
+    userID: [0, 1],
+    content: [KDW_23_054_F2],
     likes: 0,
     comments: 0,
     date: "2025-05-17T00:00:00+09:00",
@@ -37,26 +54,80 @@ export const POSTS: Post[] = [
   },
   {
     id: 1,
-    userID: [0, 1],
-    content: [Image0_1, Image0_3, Image0_2],
+    userID: [0],
+    content: [KDW_16_039_F2],
     likes: 0,
     comments: 0,
     date: "2025-05-17T17:30:00+09:00",
     description: "Description1",
   },
   {
-    id: 3,
+    id: 11,
+    userID: [0],
+    content: [KDW_18_005_F2],
+    likes: 0,
+    comments: 0,
+    date: "2025-05-17T17:30:00+09:00",
+    description: "Description1",
+  },
+  {
+    id: 2,
     userID: [1],
-    content: [Image2_1, Image2_2, Image2_3, Image1_1, Image1_3, Image1_2],
+    content: [KDW_17_037_F2],
+    likes: 0,
+    comments: 0,
+    date: "2025-05-17T17:30:00+09:00",
+    description: "Description1",
+  },
+  {
+    id: 52,
+    userID: [0, 1],
+    content: [KDW_11_034_F2],
+    likes: 0,
+    comments: 0,
+    date: "2025-05-17T17:30:00+09:00",
+    description: "Description1",
+  },
+  {
+    id: 8,
+    userID: [0],
+    content: [KDW_13_062_F2],
     likes: 0,
     comments: 0,
     date: "2025-05-17T23:30:00+09:00",
     description: "Description2",
   },
   {
-    id: 4,
-    userID: [1],
-    content: [Image3_1, Image3_2, Image3_3, Image3_4],
+    id: 3,
+    userID: [0, 1],
+    content: [KDW_06_032_F2],
+    likes: 0,
+    comments: 0,
+    date: "2025-05-17T23:30:00+09:00",
+    description: "Description2",
+  },
+  {
+    id: 18,
+    userID: [0],
+    content: [KDW_07_039_F2],
+    likes: 0,
+    comments: 0,
+    date: "2025-05-17T23:30:00+09:00",
+    description: "Description2",
+  },
+  {
+    id: 25,
+    userID: [0, 1],
+    content: [KDW_05_008_F2],
+    likes: 0,
+    comments: 0,
+    date: "2025-05-17T23:30:00+09:00",
+    description: "Description2",
+  },
+  {
+    id: 13,
+    userID: [0, 1],
+    content: [KDW_02_008_F2],
     likes: 0,
     comments: 0,
     date: "2025-05-17T23:30:00+09:00",
@@ -65,19 +136,25 @@ export const POSTS: Post[] = [
   {
     id: 5,
     userID: [0],
-    content: [
-      YImage0_1,
-      YImage0_2,
-    ],
+    content: [KDW_03_012_F2],
     likes: 0,
     comments: 0,
     date: "2025-05-17T23:30:00+09:00",
     description: "Description2",
   },
   {
-    id: 7,
-    userID: [0],
-    content: [YMBTI],
+    id: 4,
+    userID: [0, 1],
+    content: [KDW_03_012_F2___KDW_04_027_F2],
+    likes: 0,
+    comments: 0,
+    date: "2025-05-17T23:30:00+09:00",
+    description: "Description2",
+  },
+  {
+    id: 15,
+    userID: [1],
+    content: [KDW_04_027_F2],
     likes: 0,
     comments: 0,
     date: "2025-05-17T23:30:00+09:00",
@@ -85,11 +162,47 @@ export const POSTS: Post[] = [
   },
   {
     id: 6,
-    userID: [1],
-    content: [TMBTI],
+    userID: [0, 1],
+    content: [KDW_12_043_F2, KDW_12_056_F2],
     likes: 0,
     comments: 0,
     date: "2025-05-17T23:30:00+09:00",
     description: "Description2",
-  }
+  },
+  {
+    id: 7,
+    userID: [1],
+    content: [KDW_08_030_F2],
+    likes: 0,
+    comments: 0,
+    date: "2025-05-17T23:30:00+09:00",
+    description: "Description2",
+  },
+  {
+    id: 17,
+    userID: [1],
+    content: [KDW_10_040_F2],
+    likes: 0,
+    comments: 0,
+    date: "2025-05-17T23:30:00+09:00",
+    description: "Description2",
+  },
+  {
+    id: 117,
+    userID: [1],
+    content: [KDW_14_024_F2],
+    likes: 0,
+    comments: 0,
+    date: "2025-05-17T23:30:00+09:00",
+    description: "Description2",
+  },
+  {
+    id: 118,
+    userID: [1],
+    content: [KDW_09_033_F2],
+    likes: 0,
+    comments: 0,
+    date: "2025-05-17T23:30:00+09:00",
+    description: "Description2",
+  },
 ];

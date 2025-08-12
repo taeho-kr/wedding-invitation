@@ -13,6 +13,7 @@ export const PROFILES: User[] = [
     iam: "Bride",
     mbti: "INTP",
     birth: "1991.07.29",
+    bank: "기업은행 01028131919",
   },
   {
     uid: 1,
@@ -24,5 +25,6 @@ export const PROFILES: User[] = [
     iam: "Groom",
     mbti: "ENTJ",
     birth: "1992.08.29",
+    bank: "국민은행 51390101132997",
   },
 ];
