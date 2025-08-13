@@ -18,6 +18,9 @@ import KDW_08_030_F2 from "@/assets/images/KDW_08_030_F2.webp";
 import KDW_10_040_F2 from "@/assets/images/KDW_10_040_F2.webp";
 import KDW_07_039_F2 from "@/assets/images/KDW_07_039_F2.webp";
 import KDW_13_062_F2 from "@/assets/images/KDW_13_062_F2.webp";
+import ye4 from "@/assets/images/ye4.webp";
+import ye5 from "@/assets/images/ye5.webp";
+import ye6 from "@/assets/images/ye6.webp";
 
 import KDW_23_054_F2_resized from "@/assets/images/resized/KDW_23_054_F2_resized.webp";
 import KDW_16_039_F2_resized from "@/assets/images/resized/KDW_16_039_F2_resized.webp";
@@ -38,6 +41,8 @@ import KDW_08_030_F2_resized from "@/assets/images/resized/KDW_08_030_F2_resized
 import KDW_10_040_F2_resized from "@/assets/images/resized/KDW_10_040_F2_resized.webp";
 import KDW_07_039_F2_resized from "@/assets/images/resized/KDW_07_039_F2_resized.webp";
 // import KDW_13_062_F2_resized from "@/assets/images/resized/KDW_13_062_F2_resized.webp";
+import ye4_resized from "@/assets/images/resized/ye4_resized.webp";
+import ye5_resized from "@/assets/images/resized/ye5_resized.webp";
 
 import taeho_mbti from "@/assets/images/taeho_mbti.webp";
 import yongeun_mbti from "@/assets/images/yongeun_mbti.webp";
@@ -54,7 +59,7 @@ export const POSTS: Post[] = [
   },
   {
     id: 1,
-    userID: [0],
+    userID: [0, 1],
     wall: KDW_16_039_F2_resized,
     content: [KDW_16_039_F2],
     comments: 0,
@@ -98,6 +103,24 @@ export const POSTS: Post[] = [
     description: "",
   },
   {
+    id: 118,
+    userID: [0],
+    wall: ye4_resized,
+    content: [ye4],
+    comments: 0,
+    date: "2025-08-14T00:09:00+09:00",
+    description: "",
+  },
+  {
+    id: 119,
+    userID: [0],
+    wall: ye5_resized,
+    content: [ye5],
+    comments: 0,
+    date: "2025-08-14T00:09:00+09:00",
+    description: "",
+  },
+  {
     id: 3,
     userID: [0, 1],
     wall: KDW_06_032_F2_resized,
@@ -110,7 +133,7 @@ export const POSTS: Post[] = [
     id: 18,
     userID: [0],
     wall: KDW_07_039_F2_resized,
-    content: [KDW_07_039_F2],
+    content: [KDW_07_039_F2, ye6],
     comments: 0,
     date: "2025-08-14T00:09:00+09:00",
     description: "",
