@@ -14,7 +14,6 @@ export default function PostList({ posts }: Props) {
           id={post.id}
           userID={post.userID}
           content={post.content}
-          likes={post.likes}
           comments={post.comments}
           date={post.date}
           description={post.description}

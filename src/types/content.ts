@@ -18,6 +18,5 @@ export interface Post {
   date: string;
   content: string[];
   description: string;
-  likes: number;
   comments: number;
 }

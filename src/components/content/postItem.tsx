@@ -13,6 +13,8 @@ import { cn } from "@/lib/utils";
 import Lottie from "@/components/ui/lottie";
 import { PROFILES } from "@/constants/profiles";
 import { useNavigate } from "react-router";
+import useLikeStore from "@/store/likeStore";
+import { decrementLike, incrementLike } from "@/apis/like";
 
 const HeartLottieURL = "/lottie/heart.lottie";
 
@@ -22,7 +24,6 @@ export default function PostItem({
   date,
   content,
   description,
-  likes,
 }: Post) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState<number>(0);
@@ -33,9 +34,11 @@ export default function PostItem({
     unit: "day",
   });
   const [playLottie, setPlayLottie] = useState<boolean>(false);
-  const [like, setLike] = useState<boolean>(false);
+  const [like, setLike] = useState<boolean>(localStorage.getItem(`like-${id}`) === "true");
   const [user, setUser] = useState<User[]>([]);
   const [image, setimage] = useState<string>("");
+
+  const { likes, setLikes } = useLikeStore();
 
   const navigate = useNavigate();
 
@@ -110,14 +113,22 @@ export default function PostItem({
   };
 
   const handleClickHeart = () => {
-    console.log("like post", id);
-    if (!like) setPlayLottie(true);
-    setLike(!like);
+    if (!like) {
+      setPlayLottie(true);
+      incrementLike(id.toString());
+      setLikes({...likes, [id]: (likes[id] || 0) + 1 });
+      setLike(true);
+      localStorage.setItem(`like-${id}`, "true");
+    } else {
+      setLike(!like);
+      setLikes({ ...likes, [id]: (likes[id] || 0) - 1 });
+      decrementLike(id.toString());
+      localStorage.removeItem(`like-${id}`);
+    }
   };
 
   const handleDoubleClickImage = () => {
-    if (!like) setPlayLottie(true);
-    setLike(!like);
+    handleClickHeart();
   };
 
   const handleClickProfile = () => {
@@ -322,7 +333,7 @@ export default function PostItem({
                   color={like ? "red" : "white"}
                   fill={like ? "red" : "transparent"}
                 />
-                <span>{likes.toLocaleString()}</span>
+                <span>{likes?.[id]?.toLocaleString() ?? 0}</span>
               </div>
             </div>
             <div className="flex flex-row gap-[4px]">
