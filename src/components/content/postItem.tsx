@@ -326,17 +326,16 @@ export default function PostItem({
             </div>
           )}
           <div className="flex flex-col gap-1 px-4 text-start mt-2">
-            <div className="flex flex-row gap-4">
-              <div className="flex flex-row gap-2">
+              <div className="flex flex-row gap-1.5 items-center">
                 <Heart
                   onClick={handleClickHeart}
                   color={like ? "red" : "white"}
                   fill={like ? "red" : "transparent"}
+                  className="w-6 h-6"
                 />
-                <span>{isLoading ? <div className="animate-pulse h-4 w-12 bg-muted rounded" /> : likes?.[id]?.toLocaleString() ?? 0}</span>
+                <span className="text-lg">{isLoading ? <div className="animate-pulse h-4 w-12 bg-muted rounded" /> : likes?.[id]?.toLocaleString() ?? 0}</span>
               </div>
-            </div>
-            <div className="flex flex-row gap-[4px]">
+            <div className="flex flex-row gap-[4px] mt-1">
               <div className="flex flex-row gap-[4px]">
                 <strong onClick={handleClickProfile}>{user[0].name}</strong>
               </div>

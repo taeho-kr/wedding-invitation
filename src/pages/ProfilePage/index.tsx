@@ -49,8 +49,37 @@ export default function ProfilePage({ userID }: Props) {
       }, ANIMATE_DURATION);
     } else {
       setShowPopup(true);
+      // 모바일에서 뒤로가기 이벤트 리스너 추가
+      document.addEventListener('backbutton', handleBackButton);
     }
   }, [openPopup]);
+
+  const handleBackButton = () => {
+    if (openPopup) {
+      setOpenPopup(false);
+      setPopupIndex(0);
+      // 모바일에서 뒤로가기 이벤트 리스너 제거
+      document.removeEventListener('backbutton', handleBackButton);
+    }
+  };
+
+  useEffect(() => {
+    if (showPopup) {
+      if ($list.current) {
+        const targetItem = document.getElementById(`post-${popupIndex}`);
+        if (targetItem) {
+          const itemRect = targetItem.getBoundingClientRect();
+          const listRect = $list.current.getBoundingClientRect();
+          const scrollTop =
+            itemRect.top - listRect.top + $list.current.scrollTop;
+          const headerSizeOfItem = 45;
+          $list.current.scrollTo({
+            top: scrollTop - headerSizeOfItem,
+          });
+        }
+      }
+    }
+  }, [showPopup, popupIndex]);
 
   const fetchUser = async () => {
     const userData = (PROFILES.find((profile) => profile.id === userID) ??
@@ -119,14 +148,14 @@ export default function ProfilePage({ userID }: Props) {
           </Button>
         </div>
         <div className="w-full inline-block text-left">
-          {posts.map((post, index) => (
+          {posts.map((post) => (
             <img
               key={post.id}
               src={post.wall}
               className="inline w-1/3 aspect-3/4 object-cover p-0.5"
               onClick={() => {
                 setOpenPopup(true);
-                setPopupIndex(index);
+                setPopupIndex(post.id);
               }}
             />
           ))}
@@ -148,7 +177,7 @@ export default function ProfilePage({ userID }: Props) {
           <ArrowLeft onClick={() => setOpenPopup(false)} />
           <Typography variant="heading2">게시물</Typography>
         </div>
-        <PostList posts={posts} initialScrollIndex={popupIndex} />
+        <PostList posts={posts} />
       </div>
     </div>
   );
