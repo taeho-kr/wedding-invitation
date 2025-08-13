@@ -220,7 +220,7 @@ export const POSTS: Post[] = [
     description: "",
   },
   {
-    id: 118,
+    id: 1118,
     userID: [1],
     wall: KDW_09_033_F2_resized,
     content: [KDW_09_033_F2],
