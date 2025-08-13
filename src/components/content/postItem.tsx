@@ -38,7 +38,7 @@ export default function PostItem({
   const [user, setUser] = useState<User[]>([]);
   const [image, setimage] = useState<string>("");
 
-  const { likes, setLikes } = useLikeStore();
+  const { isLoading, likes, setLikes } = useLikeStore();
 
   const navigate = useNavigate();
 
@@ -333,7 +333,7 @@ export default function PostItem({
                   color={like ? "red" : "white"}
                   fill={like ? "red" : "transparent"}
                 />
-                <span>{likes?.[id]?.toLocaleString() ?? 0}</span>
+                <span>{isLoading ? <div className="animate-pulse h-4 w-12 bg-muted rounded" /> : likes?.[id]?.toLocaleString() ?? 0}</span>
               </div>
             </div>
             <div className="flex flex-row gap-[4px]">

@@ -16,6 +16,7 @@ export interface Post {
   id: number;
   userID: number[];
   date: string;
+  wall: string;
   content: string[];
   description: string;
   comments: number;

@@ -9,12 +9,12 @@ import { useEffect } from "react";
 import useLikeStore from "./store/likeStore";
 
 function App() {
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["likes"],
     queryFn: fetchLikes,
   });
 
-  const { setLikes } = useLikeStore();
+  const { setLikes, setIsLoading } = useLikeStore();
 
   useEffect(() => {
     if (data) {
@@ -23,8 +23,9 @@ function App() {
         return acc;
       }, {});
       setLikes(newLikes);
+      setIsLoading(false);
     }
-  }, [data]);
+  }, [data, isLoading]);
 
   return (
     <div className="relative h-full w-full flex flex-col">

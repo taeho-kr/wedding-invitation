@@ -52,24 +52,6 @@ export default function ProfilePage({ userID }: Props) {
     }
   }, [openPopup]);
 
-  useEffect(() => {
-    if (showPopup) {
-      if ($list.current) {
-        const targetItem = document.getElementById(`post-${popupIndex}`);
-        if (targetItem) {
-          const itemRect = targetItem.getBoundingClientRect();
-          const listRect = $list.current.getBoundingClientRect();
-          const scrollTop =
-            itemRect.top - listRect.top + $list.current.scrollTop;
-          const headerSizeOfItem = 45;
-          $list.current.scrollTo({
-            top: scrollTop - headerSizeOfItem,
-          });
-        }
-      }
-    }
-  }, [showPopup, popupIndex]);
-
   const fetchUser = async () => {
     const userData = (PROFILES.find((profile) => profile.id === userID) ??
       null) as User | null;
@@ -137,14 +119,14 @@ export default function ProfilePage({ userID }: Props) {
           </Button>
         </div>
         <div className="w-full inline-block text-left">
-          {posts.map((post) => (
+          {posts.map((post, index) => (
             <img
               key={post.id}
-              src={post.content[0]}
+              src={post.wall}
               className="inline w-1/3 aspect-3/4 object-cover p-0.5"
               onClick={() => {
                 setOpenPopup(true);
-                setPopupIndex(post.id);
+                setPopupIndex(index);
               }}
             />
           ))}
@@ -166,7 +148,7 @@ export default function ProfilePage({ userID }: Props) {
           <ArrowLeft onClick={() => setOpenPopup(false)} />
           <Typography variant="heading2">게시물</Typography>
         </div>
-        <PostList posts={posts} />
+        <PostList posts={posts} initialScrollIndex={popupIndex} />
       </div>
     </div>
   );
